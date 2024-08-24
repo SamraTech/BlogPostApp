@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">  
+
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+
+ <nav class="navbar navbar-expand-lg  btn btn-info">
+
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Hamid</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link"  th:href="@{/post/all?email={mail}(mail=${activemail})}">Post</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/post/newblog?email={mail}(mail=${activemail})}">New Post</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" th:href="@{/comment/commentall?email={mail}(mail=${activemail})}">Comment</a>
+            </li>
+            
+    		 <li class="nav-item">
+              <a class="nav-link" th:href="@{/post/logout}">LoginOut</a>
+            </li>
+          </ul>
+          </div>
+          </div> 
+        </nav>   
+   		<div class="container" id="postidtable" th:if="${postByUser!=null}">
+    <div class="card">
+           
+    <div class="card-body">
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+      
+         <th>Post Title</th>
+         <th>Post Short Description</th>
+         <th>Post Created On</th>
+        
+         <th colspan="2">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr th:each="pst:${postByUser}">
+<td th:text="${pst.title}"></td>
+<td th:text="${pst.description}"></td>
+<td th:text="${pst.created_on}"></td>
+<td><a th:href="@{/post/delete?ptid={id}&ptidusrid={usrid}(id=${pst.postid},usrid=${pst.user.userid})}" class="btn btn-danger">Delete</a>
+&nbsp;&nbsp;<a th:href="@{/post/edit?postid={id}&ptidusrid={usrid}(id=${pst.postid},usrid=${pst.user.userid})}" class="btn btn-primary">Edit</a></td>
+
+
+
+</tr>
+      
+</tbody>
+           
+        </table>
+    </div>
+    </div>
+    </div>
+    <!------- Comment Section- --------------->
+       		<div class="container" id="cmtidtable" th:if="${comment!=null}">
+    <div class="card">
+           
+    <div class="card-body">
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr>
+      
+         <th>Email</th>
+       
+       
+         <th>Created Date</th>
+         <th>Action</th>
+       </tr>
+
+</thead>
+<tbody>
+<tr th:each="com:${comment}">
+
+<td th:text="${com.email}"></td>
+<td th:text="${com.created_on}"></td>
+<td><a th:href="@{/comment/delete?comid={cmid}&email={mail}(cmid=${com.comtid},mail=${activemail})}" class="btn btn-danger">Delete</a></td>
+</tr>
+
+
+      
+</tbody>
+           
+        </table>
+    </div>
+    </div>
+    
+    
+</div>
+
+</body>
+
+</html>
